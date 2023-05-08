@@ -9,7 +9,7 @@ public enum ResourceType
 	lumber,
 	ore,
 	stone,
-	axes,
+	hammers,
 	forks,
 	drills
 }

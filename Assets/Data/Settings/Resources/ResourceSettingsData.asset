@@ -15,22 +15,22 @@ MonoBehaviour:
   resources:
   - type: 1
     name: 
-    icon: {fileID: 21300000, guid: d24e7e0b75e1a244bb9687d6fd4315ef, type: 3}
+    icon: {fileID: 21300000, guid: bc019b2f6ae060941ac672f316f33724, type: 3}
+  - type: 3
+    name: 
+    icon: {fileID: 21300000, guid: 5f31c5159e2417f4e882002efdca1ccd, type: 3}
+  - type: 2
+    name: 
+    icon: {fileID: 21300000, guid: 49229eb604530514ca4ddf3cc8f85575, type: 3}
+  - type: 4
+    name: 
+    icon: {fileID: 21300000, guid: 9d9bc13250df4a245b5968cf81e05213, type: 3}
+  - type: 5
+    name: 
+    icon: {fileID: 21300000, guid: e8b5ca524a988e249b9ff6b2e919f10d, type: 3}
+  - type: 6
+    name: 
+    icon: {fileID: 21300000, guid: 3591a1d44f5699448a3ebe07c0b07018, type: 3}
   - type: 0
     name: 
-    icon: {fileID: 0}
-  - type: 0
-    name: 
-    icon: {fileID: 0}
-  - type: 0
-    name: 
-    icon: {fileID: 0}
-  - type: 0
-    name: 
-    icon: {fileID: 0}
-  - type: 0
-    name: 
-    icon: {fileID: 0}
-  - type: 0
-    name: 
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 24a06a2f1b122cd4aa7597e900a8917f, type: 3}
