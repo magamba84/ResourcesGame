@@ -3,58 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-}
-
-
-public enum ResourceType
-{
-	Gold,
-	Lumber,
-	Ore,
-	Axes
-}
-
-public class Resource
-{
-	public ResourceType type;
-	public int count;
-}
-
-public class ResourceFullInfo
-{
-	public Resource resource;
-	public string name;
-	public int count;
-	//public Sprite icon;
-}
-
-public class ResourceTransform
-{
-	public List<Resource> from;
-	public List<Resource> to;
-}
-
 public class ResourceBank
 {
-	public List<Resource> resources;
+	private List<Resource> resources = new List<Resource>();
 	private Dictionary<ResourceType, Resource> resourcesDictionary;
 
 	public event Action<ResourceType, Resource> ResourceUpdated;
 
-	public void Awake()
+	private static ResourceBank instance;
+	public static ResourceBank Instance
+	{
+		get 
+		{ 
+			if (instance == null) 
+			{
+				instance = new ResourceBank();
+			}
+			return instance;
+		}
+	}
+
+	public ResourceBank() 
 	{
 		resourcesDictionary = new Dictionary<ResourceType, Resource>();
 		foreach (var r in resources)
