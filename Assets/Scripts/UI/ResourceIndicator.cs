@@ -14,27 +14,18 @@ public class ResourceIndicator : MonoBehaviour
 
 	private ResourceFullInfo info;
 
-	private void Start()
+	public void SetResource(ResourceType resource)
 	{
-		//ResourceBank.Instance.ResourceUpdated -= OnResourceUpdated;
-		//ResourceBank.Instance.ResourceUpdated += OnResourceUpdated;
-
-		
+		if (info == null || info.type != resource)
+		{
+			info = ResourceSettings.Instance.GetResourceInfo(resource);
+			image.sprite = info.icon;
+		}
 	}
-
-	/*private void OnDestroy()
-	{
-		ResourceBank.Instance.ResourceUpdated -= OnResourceUpdated;
-	}*/
 
 	public void SetResource(Resource resource)
 	{
-		if (info == null || info.type != resource.type)
-		{
-			info = ResourceSettings.Instance.GetResourceInfo(resource.type);
-			image.sprite = info.icon;
-		}
-
+		SetResource(resource.type);
 		text.text = resource.count.ToString();
 	}
 }

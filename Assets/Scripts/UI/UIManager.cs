@@ -35,22 +35,22 @@ public class UIManager : MonoBehaviour
 		{
 			case BuildingType.Mining:
 				{
-					currentWindow = Instantiate(mineWindow);
+					currentWindow = Instantiate(mineWindow, windowsParent);
 					break;
 				}
 			case BuildingType.Producing:
 				{
-					currentWindow = Instantiate(factoryWindow);
+					currentWindow = Instantiate(factoryWindow, windowsParent);
 					break;
 				}
 			case BuildingType.Trading:
 				{
-					currentWindow = Instantiate(marketWindow);
+					currentWindow = Instantiate(marketWindow, windowsParent);
 					break;
 				}
-
-				currentWindow.GetComponent<BuildingWindowBase>().Init(building);
 		}
+		Debug.Log(currentWindow.GetComponent<BuildingWindowBase>() + " !!!");
+		currentWindow.GetComponent<BuildingWindowBase>().Init(building);
 	}
 
 }

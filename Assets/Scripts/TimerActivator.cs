@@ -14,16 +14,22 @@ public class TimerActivator : MonoBehaviour
 
 	private Coroutine timerCoroutine;
 
+	private bool isWorking;
+	public bool IsWorking 
+	{
+		get { return isWorking; }
+	}
+
 	private void Start()
 	{
 		workableTarget = target as IWorkable;
-		StartCoroutine(MainTimer());
 	}
 
 	public void StartWork()
 	{
 		StopWork();
 		timerCoroutine = StartCoroutine(MainTimer());
+		isWorking = true;
 	}
 
 	public void StopWork()
@@ -32,6 +38,7 @@ public class TimerActivator : MonoBehaviour
 			StopCoroutine(timerCoroutine);
 
 		timerCoroutine = null;
+		isWorking = false;
 	}
 
 	private IEnumerator MainTimer()

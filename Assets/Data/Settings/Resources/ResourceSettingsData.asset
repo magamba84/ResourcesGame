@@ -34,3 +34,78 @@ MonoBehaviour:
   - type: 0
     name: 
     icon: {fileID: 21300000, guid: 24a06a2f1b122cd4aa7597e900a8917f, type: 3}
+  miningTransforms:
+  - from: []
+    to:
+    - type: 1
+      count: 1
+  - from: []
+    to:
+    - type: 2
+      count: 1
+  - from: []
+    to:
+    - type: 3
+      count: 1
+  craftTransforms:
+  - from:
+    - type: 1
+      count: 1
+    - type: 3
+      count: 1
+    to:
+    - type: 4
+      count: 1
+  - from:
+    - type: 1
+      count: 1
+    - type: 2
+      count: 1
+    to:
+    - type: 5
+      count: 1
+  - from:
+    - type: 3
+      count: 1
+    - type: 2
+      count: 1
+    to:
+    - type: 6
+      count: 1
+  marketTransforms:
+  - from:
+    - type: 1
+      count: 1
+    to:
+    - type: 0
+      count: 1
+  - from:
+    - type: 2
+      count: 1
+    to:
+    - type: 0
+      count: 1
+  - from:
+    - type: 3
+      count: 1
+    to:
+    - type: 0
+      count: 1
+  - from:
+    - type: 4
+      count: 1
+    to:
+    - type: 0
+      count: 3
+  - from:
+    - type: 5
+      count: 1
+    to:
+    - type: 0
+      count: 3
+  - from:
+    - type: 6
+      count: 1
+    to:
+    - type: 0
+      count: 3

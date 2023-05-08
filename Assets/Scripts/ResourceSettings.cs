@@ -8,6 +8,18 @@ public class ResourceSettings : ScriptableObject
 	[SerializeField] 
 	private List<ResourceFullInfo> resources;
 
+	[SerializeField]
+	private List<ResourceTransform> miningTransforms;
+	public List<ResourceTransform> MiningTransforms => miningTransforms;
+
+	[SerializeField]
+	private List<ResourceTransform> craftTransforms;
+	public List<ResourceTransform> CraftTransforms => craftTransforms;
+
+	[SerializeField]
+	private List<ResourceTransform> marketTransforms;
+	public List<ResourceTransform> MarketTransforms => marketTransforms;
+
 	private static ResourceSettings instance;
 
 	public static ResourceSettings Instance

@@ -4,27 +4,31 @@ using UnityEngine;
 
 public class ResourceTransformer : MonoBehaviour, IWorkable
 {
-    [SerializeField]
-    private ResourceTransform resourceTransform;
+	private ResourceTransform resourceTransform;
 
-    public void SetResourceTransform(ResourceTransform resourceTransform) 
-    {
-        this.resourceTransform = resourceTransform;
-    }
+	public ResourceTransform ResourceTransform
+	{
+		get { return resourceTransform; }
+	}
 
-    public void DoWork()
-    {
-        if (resourceTransform == null)
-            return;
+	public void SetResourceTransform(ResourceTransform resourceTransform)
+	{
+		this.resourceTransform = resourceTransform;
+	}
 
-        if (ResourceBank.Instance.TransformResource(resourceTransform))
-            ShowResult(resourceTransform);
-    }
+	public void DoWork()
+	{
+		if (resourceTransform == null)
+			return;
 
-    private void ShowResult(ResourceTransform result)
-    { 
-        
-    }
+		if (ResourceBank.Instance.TransformResource(resourceTransform))
+			ShowResult(resourceTransform);
+	}
+
+	private void ShowResult(ResourceTransform result)
+	{
+
+	}
 
 
 }
