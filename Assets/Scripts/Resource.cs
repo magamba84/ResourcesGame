@@ -5,10 +5,13 @@ using UnityEngine;
 
 public enum ResourceType
 {
-	Gold,
-	Lumber,
-	Ore,
-	Axes
+	gold,
+	lumber,
+	ore,
+	stone,
+	axes,
+	forks,
+	drills
 }
 
 [Serializable]
@@ -18,12 +21,12 @@ public class Resource
 	public int count;
 }
 
+[Serializable]
 public class ResourceFullInfo
 {
-	public Resource resource;
+	public ResourceType type;
 	public string name;
-	public int count;
-	//public Sprite icon;
+	public Sprite icon;
 }
 
 [Serializable]

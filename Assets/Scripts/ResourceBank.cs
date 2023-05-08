@@ -8,8 +8,6 @@ public class ResourceBank
 	private List<Resource> resources = new List<Resource>();
 	private Dictionary<ResourceType, Resource> resourcesDictionary;
 
-	public event Action<ResourceType, Resource> ResourceUpdated;
-
 	private static ResourceBank instance;
 	public static ResourceBank Instance
 	{
@@ -22,6 +20,8 @@ public class ResourceBank
 			return instance;
 		}
 	}
+
+	public event Action<ResourceType, Resource> ResourceUpdated;
 
 	public ResourceBank() 
 	{
