@@ -22,7 +22,7 @@ public class BuildingWindowMine : BuildingWindowBase
 	{
 		resourceTransformer = building.gameObject.GetComponent<ResourceTransformer>();
 		timerActivator = building.gameObject.GetComponent<TimerActivator>();
-		options = building.Options;
+		options = ResourceSettings.Instance.MiningTransforms;
 
 		if (timerActivator != null)
 		{

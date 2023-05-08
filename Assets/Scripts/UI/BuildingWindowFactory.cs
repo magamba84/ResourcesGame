@@ -22,15 +22,29 @@ public class BuildingWindowFactory : BuildingWindowBase
 	private ResourceTransformer resourceTransformer;
 	private TimerActivator timerActivator;
 	private List<ResourceTransform> options;
-	private ResourceTransform currentOption;
 
 	private List<ResourceType> possibleInputs;
 
+	private List<ResourceIndicator> indicators;
+	private List<ResourceType> selectedInputs = new List<ResourceType>();
+
 	public override void Init(BuildingController building)
 	{
+		indicators = new List<ResourceIndicator> { inputResource1, inputResource2 };
+
 		resourceTransformer = building.gameObject.GetComponent<ResourceTransformer>();
 		timerActivator = building.gameObject.GetComponent<TimerActivator>();
-		options = building.Options;
+		options = ResourceSettings.Instance.CraftTransforms;
+
+		possibleInputs = new List<ResourceType>();
+		foreach (var n in options)
+		{
+			foreach (var r in n.from)
+			{
+				if (!possibleInputs.Contains(r.type))
+					possibleInputs.Add(r.type);
+			}
+		}
 
 		if (timerActivator != null)
 		{
@@ -55,35 +69,75 @@ public class BuildingWindowFactory : BuildingWindowBase
 				return;
 			}
 			if (currentOption == null)
-				SetOption(options[0]);
+			{
+				SetRecipe(ResourceType.lumber, ResourceType.lumber);
+			}
 			else
-				resource.SetResource(currentOption.to[0].type);
-
+			{
+				SetRecipeFull(currentOption);
+			}
 		}
 	}
 
-	private void SetOption(ResourceTransform option)
+	private void SetRecipe(ResourceType r1, ResourceType r2)
 	{
-		currentOption = option;
-		if (currentOption.to.Count == 0)
-		{
-			Debug.LogError("no output resources producing!");
-			resource.gameObject.SetActive(false);
-			return;
-		}
+		selectedInputs = new List<ResourceType> { r1, r2 };
 
-		resourceTransformer.SetResourceTransform(currentOption);
-		resource.SetResource(currentOption.to[0].type);
+		inputResource1.SetResource(r1);
+		inputResource2.SetResource(r2);
+		var recipe = FindRecipe(r1, r2);
+		SetRecipeOutput(recipe);
 	}
+
+	private ResourceTransform FindRecipe(ResourceType r1, ResourceType r2)
+	{
+		var list = new List<ResourceType> { r1, r2 };
+		foreach (var recipe in options)
+		{
+			var first = recipe.from.Find(x => x.type == r1);
+			if (first != null)
+			{
+				var second = recipe.from.Find(x => x != first && x.type == r2);
+				if (second != null)
+					return recipe;
+			}
+
+		}
+		return null;
+	}
+
+
+	private void SetRecipeFull(ResourceTransform recipe)
+	{
+		selectedInputs = new List<ResourceType> { recipe.from[0].type, recipe.from[1].type };
+
+		inputResource1.SetResource(selectedInputs[0]);
+		inputResource2.SetResource(selectedInputs[1]);
+		SetRecipeOutput(recipe);
+	}
+
+	private void SetRecipeOutput(ResourceTransform recipe)
+	{
+		resource.gameObject.SetActive(recipe != null);
+		if (recipe != null)
+			resource.SetResource(recipe.to[0].type);
+
+		resourceTransformer.SetResourceTransform(recipe);
+	}
+
+
 
 	public void NextOption(int ind)
 	{
-		var index = options.IndexOf(currentOption);
+		var index = possibleInputs.IndexOf(selectedInputs[ind]);
 		index++;
-		if (index >= options.Count)
+		if (index >= possibleInputs.Count)
 			index = 0;
 
-		SetOption(options[index]);
+		selectedInputs[ind] = possibleInputs[index];
+		indicators[ind].SetResource(possibleInputs[index]);
+
+		SetRecipe(selectedInputs[0], selectedInputs[1]);
 	}
 
 	public void Launch()

@@ -34,6 +34,9 @@ public class ResourceBank
 	{
 		foreach (var r in transform.from)
 		{
+			if (!resourcesDictionary.ContainsKey(r.type))
+				return false;
+
 			var own = resourcesDictionary[r.type];
 			if (own == null || own.count < r.count)
 				return false;
