@@ -5,12 +5,11 @@ using UnityEngine;
 public class StartGameWindow : UIWindowBase
 {
     [SerializeField]
-    private ResourceGameManager gameManager;
-
-    [SerializeField]
     private GameObject toggleGroup;
 
-   public void Init(ResourceGameManager manager)
+    private ResourceGameManager gameManager;
+
+    public void Init(ResourceGameManager manager)
 	{
         gameManager = manager;
 

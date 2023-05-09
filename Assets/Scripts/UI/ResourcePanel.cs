@@ -19,7 +19,17 @@ public class ResourcePanel : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+	public void Reset()
+	{
+        foreach (var key in resourceIcons.Keys)
+        {
+            Destroy(resourceIcons[key].gameObject);
+        }
+        resourceIcons = new Dictionary<ResourceType, ResourceIndicator>();
+
+    }
+
+	private void OnDestroy()
 	{
 		ResourceBank.Instance.ResourceUpdated -= OnResourceUpdated;
 	}

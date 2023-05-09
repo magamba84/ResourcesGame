@@ -22,6 +22,9 @@ public class UIManager : MonoBehaviour
 	[SerializeField]
 	private Transform windowsParent;
 
+	[SerializeField]
+	private ResourcePanel resourcePanel;
+
 	private UIWindowBase currentWindow;
 
 	private static UIManager instance;
@@ -71,9 +74,10 @@ public class UIManager : MonoBehaviour
 		(currentWindow as StartGameWindow).Init(manager);
 	}
 
-	public void ShowVictoryWindow()
+	public void ShowVictoryWindow(ResourceGameManager manager)
 	{
 		ShowWindow(victoryWindow);
+		(currentWindow as VictoryWindow).Init(manager);
 	}
 
 	private void ShowWindow(GameObject WindowPrefab)
@@ -84,6 +88,11 @@ public class UIManager : MonoBehaviour
 		currentWindow = Instantiate(WindowPrefab, windowsParent).GetComponent<UIWindowBase>();
 		currentWindow.OnClose -= WindowClosed;
 		currentWindow.OnClose += WindowClosed;
+	}
+
+	public void Reset()
+	{
+		resourcePanel.Reset();
 	}
 
 }

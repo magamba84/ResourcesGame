@@ -11,7 +11,12 @@ public class ResourceBank
 		get { return resources; }
 		set
 		{
-			resources = value; resourcesDictionary = new Dictionary<ResourceType, Resource>();
+			resources = value; 
+			resourcesDictionary = new Dictionary<ResourceType, Resource>();
+
+			if (resources == null)
+				resources = new List<Resource>();
+
 			foreach (var r in resources)
 				resourcesDictionary[r.type] = r;
 

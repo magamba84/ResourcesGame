@@ -8,7 +8,7 @@ using UnityEngine;
 public class GameData
 {
 	public int resourcesBuildingsCount;
-	public List<Resource> resources;
+	public List<Resource> resources = new List<Resource>();
 }
 
 public class ResourceGameManager : MonoBehaviour
@@ -26,7 +26,7 @@ public class ResourceGameManager : MonoBehaviour
 	private void Awake()
 	{
 		Screen.orientation = ScreenOrientation.Portrait;
-		
+
 	}
 
 	private void Start()
@@ -47,7 +47,7 @@ public class ResourceGameManager : MonoBehaviour
 		{
 			StartGame();
 		}
-		
+
 	}
 
 	private void OnDestroy()
@@ -63,10 +63,10 @@ public class ResourceGameManager : MonoBehaviour
 		}
 	}
 
-	private void FinishGame() 
+	private void FinishGame()
 	{
 		gameComplete = true;
-		uiManager.ShowVictoryWindow();
+		uiManager.ShowVictoryWindow(this);
 	}
 
 	public void SetResourcesBuildingsCount(int count)
@@ -89,10 +89,27 @@ public class ResourceGameManager : MonoBehaviour
 			b.gameObject.SetActive(true);
 		}
 
+		Save();
+
 		StartCoroutine(SaveCoroutine());
 	}
+	public void ResetGame()
+	{
+		uiManager.Reset();
 
-	private IEnumerator SaveCoroutine() 
+		foreach (var b in buildings)
+		{
+			b.gameObject.SetActive(false);
+		}
+
+		gameData = new GameData { resourcesBuildingsCount = 3, resources = new List<Resource>() };
+		ResourceBank.Instance.Resources = gameData.resources;
+		uiManager.ShowStartGameWindow(this);
+		
+		gameComplete = false;
+	}
+
+	private IEnumerator SaveCoroutine()
 	{
 		do
 		{
@@ -100,14 +117,14 @@ public class ResourceGameManager : MonoBehaviour
 			Save();
 		}
 		while (true);
-		
+
 	}
 
-	private void Save() 
+	private void Save()
 	{
 		gameData.resources = ResourceBank.Instance.Resources;
-		var path = Path.Combine(Application.persistentDataPath,"save.txt");
-		var data = JsonConvert.SerializeObject(gameData);//ResourceBank.Instance.GetSaveData();
+		var path = Path.Combine(Application.persistentDataPath, "save.txt");
+		var data = JsonConvert.SerializeObject(gameData);
 
 		using (StreamWriter writer = new StreamWriter(path, false))
 		{
@@ -118,7 +135,7 @@ public class ResourceGameManager : MonoBehaviour
 
 	private bool Load()
 	{
-		UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get("file://"+ Application.persistentDataPath + "/save.txt");
+		UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get("file://" + Application.persistentDataPath + "/save.txt");
 		www.SendWebRequest();
 		while (!www.isDone)
 		{

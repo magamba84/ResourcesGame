@@ -415,6 +415,7 @@ MonoBehaviour:
   startGameWindow: {fileID: 2948689963895846365, guid: c088a62d28a35af4caf56d0f71dda5bf, type: 3}
   victoryWindow: {fileID: 2948689963895846365, guid: bf48024fdc2df4f479f737c4af861134, type: 3}
   windowsParent: {fileID: 940398605}
+  resourcePanel: {fileID: 2093816855}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
