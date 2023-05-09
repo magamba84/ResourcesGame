@@ -10,6 +10,9 @@ public class TimerActivator : MonoBehaviour
 	[SerializeField]
 	private float timeout = 1f;
 
+	[SerializeField]
+	private Animator animator;
+
 	private IWorkable workableTarget;
 
 	private Coroutine timerCoroutine;
@@ -30,6 +33,9 @@ public class TimerActivator : MonoBehaviour
 		StopWork();
 		timerCoroutine = StartCoroutine(MainTimer());
 		isWorking = true;
+
+		if (animator != null)
+			animator.SetFloat("speed", 1);
 	}
 
 	public void StopWork()
@@ -39,6 +45,9 @@ public class TimerActivator : MonoBehaviour
 
 		timerCoroutine = null;
 		isWorking = false;
+
+		if (animator != null)
+			animator.SetFloat("speed", 0);
 	}
 
 	private IEnumerator MainTimer()

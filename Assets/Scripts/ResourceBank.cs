@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,6 +31,14 @@ public class ResourceBank
 			resourcesDictionary[r.type] = r;
 	}
 
+	public void Save() 
+	{
+		//var s = JsonConvert.SerializeObject(resources);
+
+		//Debug.Log(s);
+		//resources = JsonConvert.DeserializeObject<List<Resource>>(s);
+	}
+
 	public bool TransformResource(ResourceTransform transform)
 	{
 		foreach (var r in transform.from)
@@ -53,7 +62,11 @@ public class ResourceBank
 		foreach (var r in transform.to)
 		{
 			if (!resourcesDictionary.ContainsKey(r.type))
+			{
 				resourcesDictionary[r.type] = new Resource { type = r.type };
+				resources.Add(resourcesDictionary[r.type]);
+			}
+				
 
 			var own = resourcesDictionary[r.type];
 			own.count += r.count;
