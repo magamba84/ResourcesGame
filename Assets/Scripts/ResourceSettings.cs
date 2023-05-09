@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ResourceSettings : ScriptableObject
 {
-	[SerializeField] 
+	[SerializeField]
 	private List<ResourceFullInfo> resources;
 
 	[SerializeField]
@@ -19,6 +19,10 @@ public class ResourceSettings : ScriptableObject
 	[SerializeField]
 	private List<ResourceTransform> marketTransforms;
 	public List<ResourceTransform> MarketTransforms => marketTransforms;
+
+	[SerializeField]
+	private int goldToWin;
+	public int GoldToWin => goldToWin;
 
 	private static ResourceSettings instance;
 

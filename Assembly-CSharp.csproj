@@ -73,6 +73,9 @@
     <Compile Include="Assets\Scripts\UI\ResourceIndicator.cs" />
     <Compile Include="Assets\Scripts\IWorkable.cs" />
     <Compile Include="Assets\Scripts\ResourceGameManager.cs" />
+    <Compile Include="Assets\Scripts\UI\StartGameWindow.cs" />
+    <Compile Include="Assets\Scripts\UI\UIWindowBase.cs" />
+    <Compile Include="Assets\Scripts\UI\VictoryWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\prefabs\Materials\ColorMobile.shader" />

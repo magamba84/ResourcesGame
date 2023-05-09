@@ -14,9 +14,15 @@ public class UIManager : MonoBehaviour
 	private GameObject marketWindow;
 
 	[SerializeField]
+	private GameObject startGameWindow;
+
+	[SerializeField]
+	private GameObject victoryWindow;
+
+	[SerializeField]
 	private Transform windowsParent;
 
-	private GameObject currentWindow;
+	private UIWindowBase currentWindow;
 
 	private static UIManager instance;
 	public static UIManager Instance
@@ -35,22 +41,51 @@ public class UIManager : MonoBehaviour
 		{
 			case BuildingType.Mining:
 				{
-					currentWindow = Instantiate(mineWindow, windowsParent);
+					ShowWindow(mineWindow);
 					break;
 				}
 			case BuildingType.Producing:
 				{
-					currentWindow = Instantiate(factoryWindow, windowsParent);
+					ShowWindow(factoryWindow);
 					break;
 				}
 			case BuildingType.Trading:
 				{
-					currentWindow = Instantiate(marketWindow, windowsParent);
+					ShowWindow(marketWindow);
 					break;
 				}
 		}
-		Debug.Log(currentWindow.GetComponent<BuildingWindowBase>() + " !!!");
-		currentWindow.GetComponent<BuildingWindowBase>().Init(building);
+
+		(currentWindow as BuildingWindowBase).Init(building);
+		currentWindow.OnClose -= WindowClosed;
+		currentWindow.OnClose += WindowClosed;
+	}
+
+	private void WindowClosed(UIWindowBase window)
+	{
+		currentWindow.OnClose -= WindowClosed;
+		currentWindow = null;
+	}
+
+	public void ShowStartGameWindow(ResourceGameManager manager)
+	{
+		ShowWindow(startGameWindow);
+		(currentWindow as StartGameWindow).Init(manager);
+	}
+
+	public void ShowVictoryWindow()
+	{
+		ShowWindow(victoryWindow);
+	}
+
+	private void ShowWindow(GameObject WindowPrefab)
+	{
+		if (currentWindow != null)
+			currentWindow.Close();
+
+		currentWindow = Instantiate(WindowPrefab, windowsParent).GetComponent<UIWindowBase>();
+		currentWindow.OnClose -= WindowClosed;
+		currentWindow.OnClose += WindowClosed;
 	}
 
 }
