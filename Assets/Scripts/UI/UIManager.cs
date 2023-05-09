@@ -25,10 +25,8 @@ public class UIManager : MonoBehaviour
 	private UIWindowBase currentWindow;
 
 	private static UIManager instance;
-	public static UIManager Instance
-	{
-		get { return instance; }
-	}
+	public static UIManager Instance => instance;
+	
 
 	private void Awake()
 	{

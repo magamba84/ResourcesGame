@@ -12,6 +12,11 @@ public class ResourcePanel : MonoBehaviour
     {
         ResourceBank.Instance.ResourceUpdated -= OnResourceUpdated;
         ResourceBank.Instance.ResourceUpdated += OnResourceUpdated;
+
+        foreach (var r in ResourceBank.Instance.Resources)
+        {
+            OnResourceUpdated(r.type, r);
+        }
     }
 
     private void OnDestroy()

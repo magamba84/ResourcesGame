@@ -1,6 +1,15 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+
+[SerializeField]
+public class GameData
+{
+	public int resourcesBuildingsCount;
+	public List<Resource> resources;
+}
 
 public class ResourceGameManager : MonoBehaviour
 {
@@ -10,25 +19,35 @@ public class ResourceGameManager : MonoBehaviour
 	[SerializeField]
 	private UIManager uiManager;
 
-	private int resourcesBuildingsCount = 3;
-
 	private bool gameComplete = false;
+
+	private GameData gameData = new GameData { resourcesBuildingsCount = 3 };
 
 	private void Awake()
 	{
 		Screen.orientation = ScreenOrientation.Portrait;
-		foreach (var b in buildings)
-		{
-			b.gameObject.SetActive(false);
-		}
+		
 	}
 
 	private void Start()
 	{
-		uiManager.ShowStartGameWindow(this);
-
 		ResourceBank.Instance.ResourceUpdated -= OnResourceUpdated;
 		ResourceBank.Instance.ResourceUpdated += OnResourceUpdated;
+
+		foreach (var b in buildings)
+		{
+			b.gameObject.SetActive(false);
+		}
+
+		if (!Load())
+		{
+			uiManager.ShowStartGameWindow(this);
+		}
+		else
+		{
+			StartGame();
+		}
+		
 	}
 
 	private void OnDestroy()
@@ -52,7 +71,7 @@ public class ResourceGameManager : MonoBehaviour
 
 	public void SetResourcesBuildingsCount(int count)
 	{
-		resourcesBuildingsCount = count;
+		gameData.resourcesBuildingsCount = count;
 	}
 
 	public void StartGame()
@@ -62,12 +81,58 @@ public class ResourceGameManager : MonoBehaviour
 		{
 			if (b.GetType() == BuildingType.Mining)
 			{
-				if (minesInited < resourcesBuildingsCount)
+				if (minesInited < gameData.resourcesBuildingsCount)
 					minesInited++;
 				else
 					continue;
 			}
 			b.gameObject.SetActive(true);
+		}
+
+		StartCoroutine(SaveCoroutine());
+	}
+
+	private IEnumerator SaveCoroutine() 
+	{
+		do
+		{
+			yield return new WaitForSeconds(2f);
+			Save();
+		}
+		while (true);
+		
+	}
+
+	private void Save() 
+	{
+		gameData.resources = ResourceBank.Instance.Resources;
+		var path = Path.Combine(Application.persistentDataPath,"save.txt");
+		var data = JsonConvert.SerializeObject(gameData);//ResourceBank.Instance.GetSaveData();
+
+		using (StreamWriter writer = new StreamWriter(path, false))
+		{
+			writer.WriteLine(data);
+			writer.Flush();
+		}
+	}
+
+	private bool Load()
+	{
+		UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get("file://"+ Application.persistentDataPath + "/save.txt");
+		www.SendWebRequest();
+		while (!www.isDone)
+		{
+		}
+		string s = www.downloadHandler.text;
+		if (string.IsNullOrEmpty(s))
+		{
+			return false;
+		}
+		else
+		{
+			gameData = JsonConvert.DeserializeObject<GameData>(s);
+			ResourceBank.Instance.Resources = gameData.resources;
+			return true;
 		}
 	}
 }

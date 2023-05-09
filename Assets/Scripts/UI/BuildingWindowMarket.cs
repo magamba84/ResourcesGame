@@ -72,8 +72,6 @@ public class BuildingWindowMarket : BuildingWindowBase
 	public void Sell()
 	{
 		resourceTransformer.DoWork();
-
-		ResourceBank.Instance.Save();
 	}
 
 	

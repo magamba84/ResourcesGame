@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,14 +6,30 @@ using UnityEngine;
 public class ResourceBank
 {
 	private List<Resource> resources = new List<Resource>();
+	public List<Resource> Resources
+	{
+		get { return resources; }
+		set
+		{
+			resources = value; resourcesDictionary = new Dictionary<ResourceType, Resource>();
+			foreach (var r in resources)
+				resourcesDictionary[r.type] = r;
+
+			foreach (var r in resources)
+			{
+				ResourceUpdated(r.type, r);
+			}
+		}
+	}
+
 	private Dictionary<ResourceType, Resource> resourcesDictionary;
 
 	private static ResourceBank instance;
 	public static ResourceBank Instance
 	{
-		get 
-		{ 
-			if (instance == null) 
+		get
+		{
+			if (instance == null)
 			{
 				instance = new ResourceBank();
 			}
@@ -24,19 +39,11 @@ public class ResourceBank
 
 	public event Action<ResourceType, Resource> ResourceUpdated;
 
-	public ResourceBank() 
+	public ResourceBank()
 	{
 		resourcesDictionary = new Dictionary<ResourceType, Resource>();
 		foreach (var r in resources)
 			resourcesDictionary[r.type] = r;
-	}
-
-	public void Save() 
-	{
-		//var s = JsonConvert.SerializeObject(resources);
-
-		//Debug.Log(s);
-		//resources = JsonConvert.DeserializeObject<List<Resource>>(s);
 	}
 
 	public bool TransformResource(ResourceTransform transform)
@@ -66,7 +73,6 @@ public class ResourceBank
 				resourcesDictionary[r.type] = new Resource { type = r.type };
 				resources.Add(resourcesDictionary[r.type]);
 			}
-				
 
 			var own = resourcesDictionary[r.type];
 			own.count += r.count;
